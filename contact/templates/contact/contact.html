@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block header %}
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url({% static 'img/contact-bg.jpg' %})">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h1>Curso de Django</h1>
+          <span class="subheading">Curso de django</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-lg-8 mx-auto">
+            
+            <form method="POST" action="{% url 'contact' %}"> 
+                {%  csrf_token %}
+                {{form|bootstrap}}
+                <br>
+                {% if success %}
+                    <div class="alert alert-success" role="alert">
+                        <i class="fas fa-check-circle"></i>
+                        Email enviado com sucesso
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-times"></i>
+                        Erro ao enviar o email.
+                    </div>
+                    
+                {% endif %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" id="sendMessageButton">Enviar</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

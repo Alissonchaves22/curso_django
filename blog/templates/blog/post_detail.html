@@ -1,13 +1,57 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Blog {% endblock title %}
+{% block header %}
+
+<!-- Page Header -->
+{% if object.imagem %}
+<header class="masthead" style="background-image: url({{object.imagem.url}})">
+{% else %}
+<header class="masthead" style="background-image: url({% static 'img/home-bg.jpg' %})">
+{% endif %}
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+            <h2>{{ post_detail.titulo }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock header %}
+
+
 {% block content %}
     
+
+    
+
     <div class="post-entry">
-        <h2>{{ post_detail.titulo }}</h2>
-        <p>{{ post_detail.conteudo  }} </p>
-        <a href="{{ object.get_absolute_url_update }}">Editar Postagem</a>
-        <br>
-        <a href="{{ object.get_absolute_url_delete }}">Deletar Postagem</a>
+        
+        <p>{{ post_detail.conteudo|safe}} </p>
+        {%  if request.user.is_authenticated %}
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ object.get_absolute_url_update }}" class="btn btn-primary">Editar Postagem</a>
+                
+                <a href="{{ object.get_absolute_url_delete }}" class="btn btn-danger">Deletar Postagem</a>
+            </div>
+        </div>
+        {% endif %}
     </div>
+    
+    {% if messages %}
+    
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+   
+    
+    {% endif %}
    
 {% endblock content %}
+
